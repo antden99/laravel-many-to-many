@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Database\Seeders\ProjectSeeder;
+use Database\Seeders\TechnologySeeder;
 use Database\Seeders\TypeSeeder; //ricorda di aggiungere il nuovo seeder per poterlo utilizzare
 use Illuminate\Database\Seeder;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProjectSeeder::class,
             TypeSeeder::class,
+            TechnologySeeder::class,
         ]);
     }
 }
