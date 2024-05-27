@@ -13,7 +13,8 @@
 
                     <div class="mb-3 text-center">
                         @if (Str::startsWith($project->cover_image, 'https://'))
-                            <img width="200"  class="border"      loading="lazy" src="{{ $project->cover_image }}" alt="{{ $project->name }}">
+                            <img width="200" class="border" loading="lazy" src="{{ $project->cover_image }}"
+                                alt="{{ $project->name }}">
                         @else
                             <img width="200" loading="lazy" src="{{ asset('storage/' . $project->cover_image) }}"
                                 alt="{{ $project->name }}">
@@ -26,9 +27,21 @@
                             <div class="text-muted">{{ $project->description }}</div>
                         </div>
                         <div class="mb-3">
-                            <div class="fw-bold">Type:</div>
-                            <div class="text-muted">{{ $project->type ? $project->type->name : 'No Type'}}</div>    <!--Qui praticamente controllo se c'è un type-->
-                        </div> 
+                            <div class="fw-bold">Type :</div>
+                            <div class="text-muted">{{ $project->type ? $project->type->name : 'No Type' }}</div>
+                            <!--Qui praticamente controllo se c'è un type-->
+                        </div>
+                        <div class="mb-3">
+                            <div class="fw-bold">Technologies :</div>
+                            @foreach ($project->technologies as $technology)
+                                <li>
+                                    {{ $technology->name }}
+                                    <ul class="list-unstyled">
+                                        <li>{{ $technology->description }}</li>
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </div>
                         <div class="mb-3">
                             <div class="fw-bold">Start Date:</div>
                             <div class="text-muted">{{ $project->start_date }}</div>
@@ -39,4 +52,5 @@
                         </div>
                     </div>
                 </div>
-</div @endsection
+            </div>
+        @endsection

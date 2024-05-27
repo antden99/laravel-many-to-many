@@ -59,12 +59,28 @@
             <div class="mb-3">
                 <label for="type_id" class="form-label">Type</label>
                 <select class="form-select form-select-lg" name="type_id" id="type_id">
-                    <option selected disabled>Select a type</option> <!--ricorda di aggiungere disabled perchè altrimenti i type potranno avere un valore non consentito e cradrai in errore!!-->
-                   @foreach ($types as $type)
-                       <option value="{{$type->id}}" {{$type->id == old('type_id') ? 'selected' : '' }}>{{$type->name}}</option>    <!--Ricordati, che per recuperare il vecchio valore inserito in caso di errore nell'invio del form
-                    devi utilizzare 'selected', che in Bootstrap viene utilizzato per selezionare un valore di defoult. Inoltre ricorda di fare il confronto con == e non con === perchè il campo $type->id è numerico e non una stringa-->
-                   @endforeach
+                    <option selected disabled>Select a type</option>
+                    <!--ricorda di aggiungere disabled perchè altrimenti i type potranno avere un valore non consentito e cradrai in errore!!-->
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}" {{ $type->id == old('type_id') ? 'selected' : '' }}>
+                            {{ $type->name }}</option>
+                        <!--Ricordati, che per recuperare il vecchio valore inserito in caso di errore nell'invio del form
+                            devi utilizzare 'selected', che in Bootstrap viene utilizzato per selezionare un valore di defoult. Inoltre ricorda di fare il confronto con == e non con === perchè il campo $type->id è numerico e non una stringa-->
+                    @endforeach
                 </select>
+            </div>
+
+            <div class="d-flex gap-3">
+                @foreach ($techList as $tech)
+                    <div class="form-check text-center ">
+
+                        <!--Stai attento a techList[] deve essere un array, perchè deve contenere più di un possibile valore selezionato dall'utente-->
+                        <input name="technologiesList[]" class="form-check-input " type="checkbox" value="{{ $tech->id }}" 
+                            id="tech-{{ $tech->id }}" {{ in_array($tech->id, old('technologiesList', [])) ? 'checked' : '' }} /> <!--controlla se tech->id è presente nell'array, in caso di errore fai check della cella, in modo tale da recuperare gli ultimi valori inseriti, vuole come secondo argomento un [] vuoto, perchè al caricamento della pagina, technologiesList, ancora non c'è-->
+                        <label class="form-check-label" for="tech-{{ $tech->id }}">{{ $tech->name }} </label>
+
+                    </div>
+                @endforeach
             </div>
 
             <div class="mb-3">

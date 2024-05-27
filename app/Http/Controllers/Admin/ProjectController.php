@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +19,7 @@ class ProjectController extends Controller
     {
         //dd(Project::all()); //ricordati di definire la rotta adesso in routes
         $projects = Project::all();
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -28,7 +30,8 @@ class ProjectController extends Controller
     {
 
         $types = Type::all();
-        return view('admin.projects.create',compact('types'));
+        $techList = Technology::all();
+        return view('admin.projects.create',compact('types','techList'));
     }
 
     /**
@@ -56,8 +59,11 @@ class ProjectController extends Controller
         }
 
 
-        Project::create($val_date); //con create creo una nuova istanza di project e la salvo direttamente nel db ma ricorda le $fillable
+        $project = Project::create($val_date); //con create creo una nuova istanza di project e la salvo direttamente nel db ma ricorda le $fillable
 
+        if($request->has('technologiesList')){ //controllo se nella richiesta è presente la chiave
+            $project->technologies()->attach($val_date['technologiesList']); //faccio l'attach della chiave, che è un array di technologies
+        }
         //redirect
         return to_route('admin.projects.index')->with('success', 'Project added successfully');;
     }
@@ -76,7 +82,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project','types'));
+        $techList = Technology::all();
+        return view('admin.projects.edit', compact('project','types','techList'));
     }
 
     /**
