@@ -73,13 +73,48 @@
             <div class="mb-3">
                 <label for="type_id" class="form-label">Type</label>
                 <select class="form-select form-select-lg" name="type_id" id="type_id">
-                    <option selected disabled>Select a type</option> <!--ricorda di aggiungere disabled perchè altrimenti i type potranno avere un valore non consentito e cradrai in errore!!-->
+                    <option selected disabled>Select a type</option>
+                    <!--ricorda di aggiungere disabled perchè altrimenti i type potranno avere un valore non consentito e cradrai in errore!!-->
                     @foreach ($types as $type)
-                        <option value="{{ $type->id }}" {{ $type->id == old('type_id', $project->type_id) ? 'selected' : '' }}>{{ $type->name }}</option>
+                        <option value="{{ $type->id }}"
+                            {{ $type->id == old('type_id', $project->type_id) ? 'selected' : '' }}>{{ $type->name }}
+                        </option>
                         <!--Attendione: inserisci il valore di defaoult se non ci sono errori di validazione. Se c'è un errore di validazione, allora utilizza il metodo old e recupera il primo parametro, se il primo parametro non c'è utilizza il valore di default come recupero-->
                     @endforeach
                 </select>
             </div>
+
+
+            @if ($errors->any())
+                <h1> Errori </h1>
+                <div class="d-flex gap-3">
+                    @foreach ($techList as $tech)
+                        <div class="form-check text-center">
+                            <!-- Checkbox con nome technologiesList[], per supportare la selezione multipla -->
+                            <input name="technologiesList[]" class="form-check-input" type="checkbox"
+                                value="{{ $tech->id }}" id="tech-{{ $tech->id }}"
+                                {{ in_array($tech->id, old('technologiesList', [])) ? 'checked' : '' }} />
+                            <!-- Etichetta per il checkbox -->
+                            <label class="form-check-label" for="tech-{{ $tech->id }}">{{ $tech->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <h1> No Errori </h1>
+                <div class="d-flex gap-3">
+                    @foreach ($techList as $tech)
+                       
+                        <div class="form-check text-center">
+                            <!-- Checkbox con nome technologiesList[], per supportare la selezione multipla -->
+                            <input name="technologiesList[]" class="form-check-input" type="checkbox"
+                                value="{{ $tech->id }}" id="tech-{{ $tech->id }}"
+                                {{ $project->technologies->find($tech->id) ? 'checked' : '' }} />
+                            <!-- Etichetta per il checkbox -->
+                            <label class="form-check-label" for="tech-{{ $tech->id }}">{{ $tech->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
 
             <div class="mb-3">

@@ -31,7 +31,7 @@ class ProjectController extends Controller
 
         $types = Type::all();
         $techList = Technology::all();
-        return view('admin.projects.create',compact('types','techList'));
+        return view('admin.projects.create', compact('types', 'techList'));
     }
 
     /**
@@ -61,7 +61,7 @@ class ProjectController extends Controller
 
         $project = Project::create($val_date); //con create creo una nuova istanza di project e la salvo direttamente nel db ma ricorda le $fillable
 
-        if($request->has('technologiesList')){ //controllo se nella richiesta è presente la chiave
+        if ($request->has('technologiesList')) { //controllo se nella richiesta è presente la chiave
             $project->technologies()->attach($val_date['technologiesList']); //faccio l'attach della chiave, che è un array di technologies
         }
         //redirect
@@ -83,7 +83,7 @@ class ProjectController extends Controller
     {
         $types = Type::all();
         $techList = Technology::all();
-        return view('admin.projects.edit', compact('project','types','techList'));
+        return view('admin.projects.edit', compact('project', 'types', 'techList'));
     }
 
     /**
@@ -101,7 +101,7 @@ class ProjectController extends Controller
 
 
             if ($project->cover_image) { //se project ha conver image, allora vado in store e cancello la cover_image attuale
-                
+
                 Storage::delete($project->cover_image);
             }
 
@@ -113,6 +113,12 @@ class ProjectController extends Controller
 
         //dd($request->all());
 
+        if ($request->has('technologiesList')) { //controllo se nella richiesta è presente la chiave
+
+            $project->technologies()->sync($validate['technologiesList']); //faccio l'attach della chiave, che è un array di technologies
+        } else {
+            $project->technologies()->sync([]); //nel caso in cui, la chiave nel form non c'è, bisogna fare il sync con un array vuoto, perchè altrimenti conserva i vecchi valori
+        }
 
         $project->update($validate);
 
@@ -126,7 +132,7 @@ class ProjectController extends Controller
     {
 
         if ($project->cover_image) { //se project ha conver image, allora vado in store e cancello la cover_image attuale, perchè altrimenti rimarrebbe il salvataggio di metà percorso nello storage 
-           
+
             Storage::delete($project->cover_image);
         }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController; //controlla sempre che il co
 use App\Http\Controllers\Admin\ProjectController; //controlla sempre che il controller sia importato correttamente per riga 32
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TechnologyController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -32,6 +33,8 @@ Route::middleware(['auth', 'verified'])
 
         Route::resource('/projects', ProjectController::class); //adesso questo admin/projects verrà gestito dal controller di Project in index in questo caso
         Route::resource('/types', TypeController::class); //adesso questo admin/projects verrà gestito dal controller di Project in index in questo caso
+        Route::resource('/technologies', TechnologyController::class); 
+
 
 });
 

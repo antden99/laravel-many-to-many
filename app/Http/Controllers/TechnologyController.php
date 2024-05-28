@@ -13,7 +13,8 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        $techList=Technology::all();
+        return view('admin.technologies.index',compact('techList'));
     }
 
     /**
@@ -29,7 +30,7 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -26,6 +26,7 @@ class UpdateProjectRequest extends FormRequest
             'cover_image'=>'required|image|max:1000',
             'description'=>'nullable|max:255',
             'type_id'=>'nullable|exists:types,id',
+            'technologiesList'=>'exists:technologies,id',
             'start_date'=>'required',
             'end_date'=>'nullable',
         ];
