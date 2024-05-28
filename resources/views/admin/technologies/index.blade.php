@@ -68,14 +68,19 @@
 
                         @foreach ($techList as $tech)
                             <tr>
-                                <td>{{ $tech->id }}</td>
-                                <td>{{ $tech->name }}</td>
-                                <td>{{ $tech->slug }}</td>
-                                <td>{{$tech->projects()->count()}}</td>
+                                <form action="{{ route('admin.technologies.update', $tech) }}" method="post">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <td>{{ $tech->id }}</td>
+                                    <td><input type="text" value="{{ $tech->name }}" name="name"></td>
+                                    <td>{{ $tech->slug }}</td>
+                                </form>
+                                <td>{{ $tech->projects()->count() }}</td>
                                 <td>
                                     <a href="{{ route('admin.technologies.show', $tech) }}" class="btn btn-dark">
                                         <i class="fa-regular fa-eye"></i></a>
-                                </td>                            
+                                </td>
                                 <td>
                                     <!-- Modal trigger button -->
                                     <button type="button" class="btn btn-danger " data-bs-toggle="modal"

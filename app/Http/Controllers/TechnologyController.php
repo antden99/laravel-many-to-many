@@ -64,7 +64,13 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        //dd($request->all());
+        $validate = $request->validated();
+
+        $validate['slug'] = Str::slug($request->name, '-');
+        $technology->update($validate);
+
+        return to_route('admin.technologies.index')->with('message', 'Post created successfully');
     }
 
     /**
