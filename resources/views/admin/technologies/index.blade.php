@@ -17,8 +17,6 @@
                             </ul>
                         </div>
                     @endif
-
-
                     <form action="{{ route('admin.technologies.store') }}" method="POST">
                         <!--Non ti dimenticare di aggiungere enctype se devi permettere il caricamento dell'immagine nel form-->
                         @csrf
@@ -54,11 +52,31 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-6">
 
-            </div>
-        </div>
-    </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TECHNOLOGY NAME</th>
+                            <th>TECHNOLOGY-SLUG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($techList as $tech)
+                            <tr>
+
+                                <td>{{ $tech->id }}</td>
+
+                                <td>{{ $tech->name }}</td>
+                                <td>{{ $tech->slug }}</td>
+
+                            </tr>
+                        @endforeach
+                    </div>
+                </div>
+             </div>
 
 
 

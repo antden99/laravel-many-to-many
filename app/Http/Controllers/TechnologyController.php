@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Technology;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
+use Illuminate\Support\Str;
 
 class TechnologyController extends Controller
 {
@@ -30,7 +31,16 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
+        //validare
+        $validate = $request->validated();
+        //dd($validate);
+
+        //creare-salvare
+        $validate['slug'] = Str::slug($request->name, '-');
+        Technology::create($validate);
+        //indirizzare
+        return to_route('admin.technologies.index');
     }
 
     /**
